@@ -118,6 +118,7 @@ fabric.properties
 .env
 application-local.yml
 application-*.local.yml
+src/main/resources/application.properties
 *.secret.yml
 *.private.yml
 *.key
