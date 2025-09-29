@@ -114,6 +114,16 @@ fabric.properties
 # https://plugins.jetbrains.com/plugin/8053-azure-toolkit-for-intellij
 .idea/**/azureSettings.xml
 
+# 민감 설정/로컬 전용
+.env
+application-local.yml
+application-*.local.yml
+*.secret.yml
+*.private.yml
+*.key
+*.jks
+*.p12
+
 ### Java ###
 # Compiled class file
 *.class
