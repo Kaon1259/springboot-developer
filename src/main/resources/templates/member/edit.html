@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:replace="~{fragments/header :: siteHeader}"></div>
+
+<!-- 플래시 메시지 -->
+<div th:if="${message}" class="alert alert-success alert-dismissible fade show" role="alert">
+    <span th:text="${message}"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<div class="container">
+    <h3 class="my-3">회원 정보 수정</h3>
+
+    <!-- member가 있을 때만 수정 폼 노출 -->
+    <div th:if="${member != null}">
+        <form th:action="@{/members/update}" th:object="${member}" method="post">
+            <!-- PUT 메서드로 변경 (HiddenHttpMethodFilter 필요) -->
+            <input type="hidden" name="_method" value="put"/>
+
+            <div class="mb-3">
+                <label for="id" class="form-label">번호</label>
+                <input id="id" th:field="*{id}" class="form-control" type="text" readonly>
+            </div>
+
+            <div class="mb-3">
+                <label for="name" class="form-label">이름</label>
+                <input id="name" th:field="*{name}" class="form-control" type="text" placeholder="이름을 입력하세요">
+                <div class="text-danger small" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="age" class="form-label">나이</label>
+                <input id="age" th:field="*{age}" class="form-control" type="number" min="1" placeholder="나이를 입력하세요">
+                <div class="text-danger small" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-dark">수정 저장</button>
+                <a th:href="@{/members}" class="btn btn-secondary">취소</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- member가 없을 때 -->
+    <div th:if="${member == null}" class="alert alert-warning mt-3">
+        데이터가 없습니다.
+        <a th:href="@{/members}" class="btn btn-sm btn-outline-dark ms-2">회원리스트</a>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: siteFooter}"></div>
+</body>
+</html>

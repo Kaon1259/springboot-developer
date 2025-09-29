@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Member List</title>
+</head>
+<body>
+
+<!-- 조각: 경로가 templates/fragments/header.html 이라면 -->
+<div th:replace="~{fragments/header :: siteHeader}"></div>
+
+<!-- content -->
+
+<p th:text="${#temporals.format(today, 'yyyy-MM-dd')}"></p>
+<div class="container">
+    <table>
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>이름</th>
+            <th>나이</th>
+            <th>취미</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 단일 객체라면 -->
+        <tr th:object="${person}">
+            <td th:text="*{id}">1</td>
+            <td th:text="*{name}">홍길동</td>
+            <td th:text="*{age}">20</td>
+            <td>
+                <!-- hobbies 목록을 <ul>로 출력 -->
+                <ul>
+                    <li th:each="hobby : *{hobbies}">
+                        <span th:text="${hobby}"></span>
+                        <span th:if="${hobby == '운동'}">(대표취미)</span>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/members/new}" class="btn btn-dark">회원가입</a>
+</div>
+
+<div th:replace="~{fragments/footer :: siteFooter}"></div>
+</body>

@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:replace="fragments/header :: siteHeader"></div>
+
+<!-- 플래시 메시지 출력 -->
+<div th:if="${message}" class="alert alert-success alert-dismissible fade show" role="alert">
+    <span th:text="${message}"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<div class="container">
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>이름</th>
+                <th>나이</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:if="${member != null}">
+                <td th:text="${member.id}"></td>
+                <td th:text="${member.name}"></td>
+                <td th:text="${member.age}"></td>
+            </tr>
+            <tr th:if="${member == null}">
+                <td colspan="3">데이터가 없습니다.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <a th:href="@{/members/new}" class="btn btn-dark">회원가입</a>
+    <a th:href="@{/members}" class="btn btn-dark">회원리스트</a>
+</div> <!-- /container -->
+<div th:replace="fragments/footer :: siteFooter"></div>
+</body>
+</html>

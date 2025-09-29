@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Member List</title>
+</head>
+<body>
+
+<!-- 조각: 경로가 templates/fragments/header.html 이라면 -->
+<div th:replace="~{fragments/header :: siteHeader}"></div>
+
+<!-- content -->
+<div th:if="${message != null}" class="alert alert-primary alert-dismissible fade show" role="alert">
+    <span th:text="${message}"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<div class="container">
+    <table>
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>이름</th>
+            <th>나이</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 단일 객체라면 th:if로, 리스트라면 th:each 사용 -->
+        <tr th:each="m : ${members}">
+            <td th:text="${m.id}">1</td>
+            <td th:text="${m.name}">홍길동</td>
+            <td th:text="${m.age}">20</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/members/new}" class="btn btn-dark">회원가입</a>
+</div>
+
+<div th:replace="~{fragments/footer :: siteFooter}"></div>
+</body>

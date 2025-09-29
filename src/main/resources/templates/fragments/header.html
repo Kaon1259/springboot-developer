@@ -1,0 +1,14 @@
+<!-- templates/fragments/header.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<header th:fragment="siteHeader">
+    <h1>공통 헤더</h1>
+    <nav>
+        <a th:href="@{/}">홈</a>
+        <a th:href="@{/about}">소개</a>
+    </nav>
+    <hr>
+</header>
+</body>
+</html>
