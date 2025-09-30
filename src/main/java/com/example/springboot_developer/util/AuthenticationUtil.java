@@ -27,6 +27,8 @@ public class AuthenticationUtil {
                 Map<String, Object> profile = (Map<String, Object>) account.get("profile");
                 log.info("kakao:extractEmail:kakao_account:profile:nickname = {}", profile.get("nickname"));
                 return profile != null ? (String) profile.get("nickname") + "@_kakao.com" : null;
+            case "facebook":
+                return (String) attr.get("email");
             default:
                 return (String) attr.get("email"); // fallback
         }
@@ -38,6 +40,8 @@ public class AuthenticationUtil {
 
         switch (registrationId) {
             case "google":
+                return (String) attr.get("email");
+            case "facebook":
                 return (String) attr.get("email");
             case "naver":
                 Map<String, Object> resp = (Map<String, Object>) attr.get("response");

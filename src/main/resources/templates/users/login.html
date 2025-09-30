@@ -35,6 +35,10 @@
                         </a>
                     </div>
                     <div class = "mb-2">
+                    <a class="btn btn-primary" href="/oauth2/authorization/facebook">Facebook으로 로그인</a>
+                    </div>
+
+                    <div class = "mb-2">
                         <form action="/login" method="POST">
                             <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}" />
                             <div class="mb-3">

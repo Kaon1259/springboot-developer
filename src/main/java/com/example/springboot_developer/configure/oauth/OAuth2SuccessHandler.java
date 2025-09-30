@@ -52,6 +52,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         if( authentication instanceof OAuth2AuthenticationToken oAuth2User) {
             String email = extractEmail(oAuth2User.getAuthorizedClientRegistrationId(), oAuth2User.getPrincipal());
 
+            log.info("onAuthenticationSuccess : {}", oAuth2User.toString());
+
             if(email != null) {
                 String registartionId = oAuth2User.getAuthorizedClientRegistrationId();
                 log.info("registrationId : {} email: {}", registartionId, email);
@@ -180,6 +182,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                     return userService.save(new UserDto(email, email, null, registrationId));
                 case "naver":
                     return userService.save(new UserDto(email, email, null, registrationId));
+                case "facebook":
+                    return userService.save(new UserDto(email, email, null, registrationId));
                 case "kakao":
                     log.info("createOauthAccount:registrationId:kakao : {} email: {}", registrationId, email);
                     String nickname = AuthenticationUtil.extractNickname(registrationId, oAuth2User.getPrincipal());
@@ -200,6 +204,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                 case "google":
                     return userService.save(new UserDto(email, email, null, registrationId));
                 case "naver":
+                    return userService.save(new UserDto(email, email, null, registrationId));
+                case "facebook":
                     return userService.save(new UserDto(email, email, null, registrationId));
                 case "kakao":
                     log.info("createOauthAccount:registrationId:kakao : {} email: {}", registrationId, email);
