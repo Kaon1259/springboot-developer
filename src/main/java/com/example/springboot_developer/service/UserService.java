@@ -20,6 +20,8 @@ public class UserService {
             User user = userRepository.findByEmail(userDto.getEmail()).orElse(null);
             if (user != null) { throw new Exception("Already exists"); }
 
+            log.info("Saving user {}", userDto);
+
             return userRepository.save(User.builder()
                     .email(userDto.getEmail())
                     .password(bCryptPasswordEncoder.encode(userDto.getPassword()))
