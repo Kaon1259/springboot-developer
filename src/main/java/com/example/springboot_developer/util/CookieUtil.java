@@ -16,7 +16,6 @@ import java.util.Optional;
 public class CookieUtil {
 
     public static void addCookie(HttpServletResponse response, String name, String value, int maxAge) {
-
         Cookie cookie = new Cookie(name, value);
         cookie.setMaxAge(maxAge);
         cookie.setPath("/");
@@ -26,7 +25,6 @@ public class CookieUtil {
 
     //name의 쿠키를 삭제한다. --MaxAge = 0 이면 삭제된다.
     public static void deleteCookie(HttpServletRequest request, HttpServletResponse response, String name) {
-        log.info("delete cookie : " + name);
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
