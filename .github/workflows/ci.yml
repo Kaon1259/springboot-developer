@@ -24,6 +24,35 @@ jobs:
       - name: Build with Gradle (Windows)
         run: .\gradlew.bat clean build -x test
 
+      # ---------------------------------------------------------------
+      # [수정 1] Jar 파일 이름을 정확하게 추출하는 단계 (가장 중요)
+      # ---------------------------------------------------------------
+      - name: Get Built Jar File Name
+        id: get-jar
+        # PowerShell을 사용하여 ./build/libs에서 .jar 파일을 찾고 파일명을 출력 변수로 설정합니다.
+        run: |
+          # 프로젝트에 맞는 Jar 파일 패턴을 설정하세요. (일반적으로 *-SNAPSHOT.jar)
+          $pattern = "*-SNAPSHOT.jar" 
+          $file = Get-ChildItem -Path ./build/libs/ -Filter $pattern | Select-Object -First 1
+          if ($file) {
+              echo "jar_filename=$($file.Name)" >> $env:GITHUB_OUTPUT
+          } else {
+              Write-Error "Error: No JAR file found in ./build/libs/ matching $pattern"
+          }
+        shell: powershell
+
+      # ---------------------------------------------------------------
+      # [오류 해결] Jar 파일을 ZIP으로 압축하는 단계 추가
+      # 이 단계를 통해 배포 액션의 경로 처리 문제를 회피합니다.
+      # ---------------------------------------------------------------
+      - name: Create deployment package (ZIP)
+        id: create-zip
+        run: |
+          # PowerShell을 사용하여 Jar 파일을 deployment-package.zip으로 압축합니다.
+          $jarPath = "./build/libs/${{ steps.get-jar.outputs.jar_filename }}"
+          $zipPath = "deployment-package.zip"
+          Compress-Archive -Path $jarPath -DestinationPath $zipPath
+        shell: powershell
 
       - name: Get Current Time
         uses: josStorer/get-current-time@v2.0.2
@@ -32,8 +61,6 @@ jobs:
           format: YYYY-MM-DDTHH-mm-ss
           utcOffset: "+09:00"
 
-      - name: Set artifact
-        run: echo "artifact=$(ls ./build/libs)" >> $env:GITHUB_ENV
 
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v22
@@ -44,4 +71,4 @@ jobs:
           environment_name: Springboot-developer-env
           version_label: v-${{ github.run_number }}-${{ github.sha }}
           region: ${{ secrets.AWS_REGION }}
-          deployment_package: ./build/lib/${{env.artifact}}
+          deployment_package: deployment-package.zip
