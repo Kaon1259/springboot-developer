@@ -1,8 +1,8 @@
-name : CI
+name: CI
 
-ON:
-  PUSH:
-    branch: [main]
+on:
+  push:
+    branches: [main]
 
 jobs:
   build:
@@ -15,8 +15,5 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name : Grant Execute permission for gradlew
-        run: chmod +x gradlw
-
-      - name : Build with Gradle
-        run: ./gradlw clean build
+      - name: Build with Gradle (Windows)
+        run: gradlew.bat clean build

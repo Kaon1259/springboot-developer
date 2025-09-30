@@ -18,7 +18,6 @@ public class UserService {
     public User save(UserDto userDto) {
         try {
             User user = userRepository.findByEmail(userDto.getEmail()).orElse(null);
-
             if (user != null) { throw new Exception("Already exists"); }
 
             return userRepository.save(User.builder()
