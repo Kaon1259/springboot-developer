@@ -22,7 +22,7 @@ jobs:
           path: build/libs/*.jar
 
       - name: Build with Gradle (Windows)
-        run: .\gradlew.bat clean build -x test`
+        run: .\gradlew.bat clean build -x test
 
 
       - name: Get Current Time
@@ -34,3 +34,14 @@ jobs:
 
       - name: Set artifact
         run: echo "artifact=$(ls ./build/libs)" >> $env:GITHUB_ENV
+
+      - name: Deploy to Elastic Beanstalk
+        uses: einaregilsson/beanstalk-deploy@v22
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: springboot-developer
+          environment_name: Springboot-developer-env
+          version_label: v-${{ github.run_number }}-${{ github.sha }}
+          region: ${{ secrets.AWS_REGION }}
+          deployment_package: ./build/lib/${{env.artifact}}
