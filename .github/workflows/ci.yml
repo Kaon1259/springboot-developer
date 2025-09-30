@@ -15,5 +15,11 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-output
+          path: build/libs/*.jar
+
       - name: Build with Gradle (Windows)
         run: .\gradlew.bat clean build -x test`
