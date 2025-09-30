@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.token.TokenService;
@@ -36,9 +37,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         //context filter에 인증 정보가 존재하면 이미 인증 받은 것으로 처리한다.
-        if (SecurityContextHolder.getContext().getAuthentication() != null) {
-
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if ((authentication != null) && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
             filterChain.doFilter(request, response);
             return; // 즉시 종료
         }

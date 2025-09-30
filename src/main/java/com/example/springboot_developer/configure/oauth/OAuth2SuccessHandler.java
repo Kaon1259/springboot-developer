@@ -56,6 +56,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                 String registartionId = oAuth2User.getAuthorizedClientRegistrationId();
                 log.info("registrationId : {} email: {}", registartionId, email);
 
+                //동일한 이메일 정보도 로그인 되지 않도록 하기 위해서...
+                //registrationId가 다르면 동일 이메일로 로그인 되도록 할 수 도 있음
                 //User user = userService.findByEmailAndRegistrationId(email, registartionId);
                 User user = userService.findByEmail(email);
                 if(user == null){
