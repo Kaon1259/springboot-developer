@@ -41,6 +41,16 @@ jobs:
           }
         shell: powershell
 
+      # --- 아티팩트 업로드 (디버깅용) ---
+      # 업로드 아티팩트 경로를 Jar 파일 대신 ZIP 파일로 변경했습니다.
+      - name: Upload build artifacts
+        if: steps.get-jar.outputs.jar_filename
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          # 생성된 ZIP 파일을 아티팩트로 업로드
+          path: deployment-package.zip
+
       # ---------------------------------------------------------------
       # [오류 해결] Jar 파일을 ZIP으로 압축하는 단계 추가
       # 이 단계를 통해 배포 액션의 경로 처리 문제를 회피합니다.
